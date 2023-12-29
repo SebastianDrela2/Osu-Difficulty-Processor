@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace OsuDifficultyProcessor
+namespace DifficultyProcessor
 {
     internal static class BeatMap
     {
