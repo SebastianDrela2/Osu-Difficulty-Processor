@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace RadiApplication
+namespace DifficultyProcessor
 {
     public class BeatmapData
     {

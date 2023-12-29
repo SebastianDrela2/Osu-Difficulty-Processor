@@ -1,4 +1,6 @@
-﻿namespace RadiApplication
+﻿using DifficultyProcessor;
+
+namespace OsuDifficultyProcessor
 {
     internal class Program
     {
