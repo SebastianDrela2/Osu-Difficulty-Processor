@@ -56,7 +56,7 @@ namespace RadiApplication
 
             try
             {
-                json = ReturnOsuUrlJson(id).Result;
+                json = GetOsuUrlJsonCall(id).Result;
             }
             catch (Exception)
             {
@@ -66,14 +66,13 @@ namespace RadiApplication
             return json;
         }
 
-        private static async Task<string> ReturnOsuUrlJson(string id)
+        private static async Task<string> GetOsuUrlJsonCall(string mapId)
         {
             try
             {
                 using var client = new HttpClient();
-                var modId = "0";
-                
-                var apiUrl = $"https://osu.ppy.sh/api/get_beatmaps?k={ClientSecret}&b={id}mods={modId}";
+
+                var apiUrl = $"https://osu.ppy.sh/api/get_beatmaps?k={ClientSecret}&b={mapId}mods={_modId}";
 
                 Thread.Sleep(1000);
 
@@ -84,7 +83,6 @@ namespace RadiApplication
                 
                 if (response.IsSuccessStatusCode)
                 {
-                    
                     return await response.Content.ReadAsStringAsync();
                 }
             }
