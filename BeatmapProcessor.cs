@@ -17,8 +17,9 @@ namespace DifficultyProcessor
 
     internal static class BeatmapProcessor
     {
-        private static readonly string ClientSecret = "API-KEY-FOR-NOW";
-        private static string _modId = "0";
+        private const string ClientSecret = "API-KEY-FOR-NOW";
+        private const string ModId = "0";
+
         public static string GetFullTitle(string json)
         {
             var fullTitle = string.Empty;
@@ -72,7 +73,7 @@ namespace DifficultyProcessor
             {
                 using var client = new HttpClient();
 
-                var apiUrl = $"https://osu.ppy.sh/api/get_beatmaps?k={ClientSecret}&b={mapId}mods={_modId}";
+                var apiUrl = $"https://osu.ppy.sh/api/get_beatmaps?k={ClientSecret}&b={mapId}mods={ModId}";
 
                 Thread.Sleep(1000);
 
