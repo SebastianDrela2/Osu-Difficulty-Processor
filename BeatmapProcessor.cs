@@ -15,12 +15,20 @@ namespace DifficultyProcessor
         public double DifficultyRating { get; set; }
     }
 
-    internal static class BeatmapProcessor
+    internal class BeatmapProcessor
     {
-        private const string ClientSecret = "API-KEY-FOR-NOW";
-        private const string ModId = "0";
+        private readonly string _clientSecret;
+        private readonly string _modId;
+        private readonly int _desiredDifficulty;
 
-        public static string GetFullTitle(string json)
+        public BeatmapProcessor(string clientSecret, string modId, int desiredDifficulty)
+        {
+            _clientSecret = clientSecret;
+            _modId = modId;
+            _desiredDifficulty = desiredDifficulty;
+        }
+
+        public string GetFullTitle(string json)
         {
             var fullTitle = string.Empty;
 
@@ -30,7 +38,9 @@ namespace DifficultyProcessor
 
                 if (data != null && data.DifficultyRating != 0)
                 {
-                    if (data.DifficultyRating is > 7 and < 8)
+                    var diffOneHigherThanDesired = _desiredDifficulty + 1;
+
+                    if (data.DifficultyRating > _desiredDifficulty && data.DifficultyRating < diffOneHigherThanDesired)
                     {
                         fullTitle = $"{data.Artists} - {data.Title} ({data.Creator}) [{data.Version}]";
                     }
@@ -42,16 +52,17 @@ namespace DifficultyProcessor
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"{fullTitle} is a hit.");
             }
+
             return fullTitle;
         }
 
-        private static IEnumerable<BeatmapData> GetJsonBeatMapData(string json)
+        private IEnumerable<BeatmapData> GetJsonBeatMapData(string json)
         {
             var obj = JsonConvert.DeserializeObject<List<BeatmapData>>(json);
             return obj ?? new List<BeatmapData>();
         }
 
-        public static string GetJson(string id)
+        public string GetJson(string id)
         {
             var json = string.Empty;
 
@@ -67,13 +78,13 @@ namespace DifficultyProcessor
             return json;
         }
 
-        private static async Task<string> GetOsuUrlJsonCall(string mapId)
+        private async Task<string> GetOsuUrlJsonCall(string mapId)
         {
             try
             {
                 using var client = new HttpClient();
 
-                var apiUrl = $"https://osu.ppy.sh/api/get_beatmaps?k={ClientSecret}&b={mapId}mods={ModId}";
+                var apiUrl = $"https://osu.ppy.sh/api/get_beatmaps?k={_clientSecret}&b={mapId}mods={_modId}";
 
                 Thread.Sleep(1000);
 
@@ -87,7 +98,7 @@ namespace DifficultyProcessor
                     return await response.Content.ReadAsStringAsync();
                 }
             }
-            catch (Exception)
+            catch
             {
                 return string.Empty;
             }

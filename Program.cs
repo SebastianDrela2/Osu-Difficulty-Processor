@@ -1,53 +1,59 @@
-﻿using DifficultyProcessor;
-
-namespace OsuDifficultyProcessor
+﻿namespace DifficultyProcessor
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            var startDirectory = @"C:\Users\Niki\AppData\Local\osu!\Songs";
-            var targetFolder = @"C:\Users\Niki\Documents\7star";
             var searchPattern = "*.osu";
+            var osuSettings = XmlSettingsReader.GetOsuSettings();
 
-            var foundFiles = Directory.GetFiles(startDirectory, searchPattern, SearchOption.AllDirectories);
-            var allIDs = BeatMap.GetAllIds(foundFiles);
-
-            foreach (var id in allIDs)
+            if (osuSettings != null)
             {
-                var jsonOnline = BeatmapProcessor.GetJson(id);
+                var foundFiles = Directory.GetFiles(osuSettings.StartDirectory, searchPattern,
+                    SearchOption.AllDirectories);
+                var allIDs = BeatMap.GetAllIds(foundFiles);
 
-                if (jsonOnline != string.Empty)
+                var beatmapProcessor = new BeatmapProcessor(osuSettings.ApiKey, "0", osuSettings.DesiredDifficulty);
+                foreach (var id in allIDs)
                 {
-                    var hit = BeatmapProcessor.GetFullTitle(jsonOnline);
+                    var jsonOnline = beatmapProcessor.GetJson(id);
 
-                    if (!string.IsNullOrEmpty(hit))
+                    if (jsonOnline != string.Empty)
                     {
-                        var pathHit = foundFiles.FirstOrDefault(x => x.Contains(hit));
+                        var hit = beatmapProcessor.GetFullTitle(jsonOnline);
 
-                        if (!string.IsNullOrEmpty(pathHit))
+                        if (!string.IsNullOrEmpty(hit))
                         {
-                            var pathWithoutPath = Path.GetFileName(pathHit);
-                            try
-                            {
-                                File.Copy(pathHit, @$"{targetFolder}\{pathWithoutPath}", true);
-                                Console.ForegroundColor = ConsoleColor.Green;
-                                Console.WriteLine($"Copied {pathWithoutPath}");
-                            }
-                            catch (Exception)
-                            {
-                                Console.ForegroundColor = ConsoleColor.White;
-                                Console.WriteLine($"Epic error");
-                                Console.ReadKey();
-                            }
+                            var pathHit = foundFiles.FirstOrDefault(x => x.Contains(hit));
 
+                            if (!string.IsNullOrEmpty(pathHit))
+                            {
+                                var fileName = Path.GetFileName(pathHit);
+                                try
+                                {
+                                    File.Copy(pathHit, @$"{osuSettings.TargetFolder}\{fileName}", true);
+                                    Console.ForegroundColor = ConsoleColor.Green;
+                                    Console.WriteLine($"Copied {fileName}");
+                                }
+                                catch
+                                {
+                                    Console.ForegroundColor = ConsoleColor.White;
+                                    Console.WriteLine("Error");
+                                    Console.ReadKey();
+                                }
+
+                            }
                         }
                     }
                 }
-            }
 
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.ReadKey();
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.ReadKey();
+            }
+            else
+            {
+                Console.WriteLine($"No settings were detected, created default settings in {XmlSettingsReader.SettingsPath}");
+            }
         }
 
     }
