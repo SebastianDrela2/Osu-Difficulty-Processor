@@ -58,9 +58,9 @@ namespace DifficultyProcessor
             {
                 json = GetOsuUrlJsonCall(id).Result;
             }
-            catch (Exception)
+            catch
             {
-                //
+                // return empty json if anything fails.
             }
 
             return json;
