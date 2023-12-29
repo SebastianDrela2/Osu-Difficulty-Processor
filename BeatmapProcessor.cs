@@ -44,15 +44,10 @@ namespace RadiApplication
             return fullTitle;
         }
 
-        private static List<BeatmapData> GetJsonBeatMapData(string json)
+        private static IEnumerable<BeatmapData> GetJsonBeatMapData(string json)
         {
             var obj = JsonConvert.DeserializeObject<List<BeatmapData>>(json);
-            if (obj != null)
-            {
-                return obj;
-            }
-
-            return new List<BeatmapData>();
+            return obj ?? new List<BeatmapData>();
         }
 
         public static string GetJson(string id)
@@ -78,7 +73,6 @@ namespace RadiApplication
                 using var client = new HttpClient();
                 var modId = "0";
                 
-
                 var apiUrl = $"https://osu.ppy.sh/api/get_beatmaps?k={ClientSecret}&b={id}mods={modId}";
 
                 Thread.Sleep(1000);
