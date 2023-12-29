@@ -4,13 +4,15 @@ namespace DifficultyProcessor;
 
 internal static class XmlSettingsReader
 {
-    public static readonly string SettingsPath = @$"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\OsuSettings\osuSettings.xml";
+    public static readonly string SettingsPath = @$"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\OsuDifficultyParserSettings\settings.xml";
 
     public static OsuSettings GetOsuSettings()
     {
-        if (!Directory.Exists(SettingsPath))
+        var parentDirectory = Path.GetDirectoryName(SettingsPath)!;
+
+        if (!Directory.Exists(parentDirectory))
         {
-            Directory.CreateDirectory(SettingsPath);
+            Directory.CreateDirectory(parentDirectory);
         }
 
         if (!File.Exists(SettingsPath))

@@ -6,8 +6,7 @@
         {
             var searchPattern = "*.osu";
             var osuSettings = XmlSettingsReader.GetOsuSettings();
-
-            if (osuSettings != null)
+            try
             {
                 var foundFiles = Directory.GetFiles(osuSettings.StartDirectory, searchPattern,
                     SearchOption.AllDirectories);
@@ -41,7 +40,6 @@
                                     Console.WriteLine("Error");
                                     Console.ReadKey();
                                 }
-
                             }
                         }
                     }
@@ -50,11 +48,12 @@
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.ReadKey();
             }
-            else
+            catch(Exception e)
             {
-                Console.WriteLine($"No settings were detected, created default settings in {XmlSettingsReader.SettingsPath}");
+                Console.WriteLine(e.Message);
+                Console.WriteLine($"Settings Path: {XmlSettingsReader.SettingsPath}");
+                throw;
             }
         }
-
     }
 }
