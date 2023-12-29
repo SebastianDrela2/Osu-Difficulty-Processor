@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using System.Text.RegularExpressions;
 
 namespace RadiApplication
 {
@@ -24,9 +19,9 @@ namespace RadiApplication
                         ids.Add(id);
                     }
                 }
-                catch(Exception)
+                catch
                 {
-                    //
+                    // if anything happens, just continue
                 }
             }
 
@@ -42,7 +37,6 @@ namespace RadiApplication
             }
 
             var lines = File.ReadAllLines(filePath);
-
             var pattern = @"^BeatmapID:(\d+)$";
 
             foreach (var line in lines)

@@ -1,31 +1,24 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security;
-using System.Text;
-using System.Text.Json.Nodes;
-using System.Threading.Tasks;
 
 namespace RadiApplication
 {
     public class BeatmapData
     {
-        public string artists { get; set; }
+        public string? Artists { get; set; }
 
-        public string title { get; set; }
+        public string? Title { get; set; }
 
-        public string version { get; set; }
+        public string? Version { get; set; }
 
-        public string creator { get; set; }
+        public string? Creator { get; set; }
 
-        public double difficultyrating { get; set; }
+        public double DifficultyRating { get; set; }
     }
 
     internal static class BeatmapProcessor
     {
-        private static string client_secret = "API-KEY-FOR-NOW";
-
+        private static readonly string ClientSecret = "API-KEY-FOR-NOW";
+        private static string _modId = "0";
         public static string GetFullTitle(string json)
         {
             var fullTitle = string.Empty;
@@ -34,11 +27,11 @@ namespace RadiApplication
             {
                 var data = GetJsonBeatMapData(json).FirstOrDefault();
 
-                if (data != null && data.difficultyrating != 0)
+                if (data != null && data.DifficultyRating != 0)
                 {
-                    if (data.difficultyrating is > 7 and < 8)
+                    if (data.DifficultyRating is > 7 and < 8)
                     {
-                        fullTitle = $"{data.artists} - {data.title} ({data.creator}) [{data.version}]";
+                        fullTitle = $"{data.Artists} - {data.Title} ({data.Creator}) [{data.Version}]";
                     }
                 }
             }
@@ -83,11 +76,10 @@ namespace RadiApplication
             try
             {
                 using var client = new HttpClient();
+                var modId = "0";
+                
 
-                const string modId = "0";
-                // Specify the URL you want to request data from
-
-                var apiUrl = $"https://osu.ppy.sh/api/get_beatmaps?k={client_secret}&b={id}mods={modId}";
+                var apiUrl = $"https://osu.ppy.sh/api/get_beatmaps?k={ClientSecret}&b={id}mods={modId}";
 
                 Thread.Sleep(1000);
 
@@ -95,10 +87,10 @@ namespace RadiApplication
                 Console.WriteLine($"");
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine($"Checked this map: {apiUrl}");
-                // Check if the response status code indicates success
+                
                 if (response.IsSuccessStatusCode)
                 {
-                    // Read the JSON response as a string
+                    
                     return await response.Content.ReadAsStringAsync();
                 }
             }
