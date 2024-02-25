@@ -1,35 +1,25 @@
 ﻿using System.Xml.Linq;
+using DifficultyProcessor.Settings;
 
-namespace DifficultyProcessor;
+namespace DifficultyProcessor.XmlManagement;
 
 internal static class XmlSettingsReader
-{
-    public static readonly string SettingsPath = @$"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\OsuDifficultyParserSettings\settings.xml";
-
-    public static OsuSettings GetOsuSettings()
+{   
+    public static OsuSettings? GetOsuSettings()
     {
-        var parentDirectory = Path.GetDirectoryName(SettingsPath)!;
+        var parentDirectory = Path.GetDirectoryName(OsuSettings.SettingsPath)!;
 
         if (!Directory.Exists(parentDirectory))
         {
             Directory.CreateDirectory(parentDirectory);
         }
 
-        if (!File.Exists(SettingsPath))
+        if (!File.Exists(OsuSettings.SettingsPath))
         {
-            var initialXml = new XDocument(
-                new XElement("Data",
-                    new XElement("StartDirectory"),
-                    new XElement("TargetFolder"),
-                    new XElement("ApiKey"),
-                    new XElement("DesiredDifficulty")
-                )
-            );
-
-            initialXml.Save(SettingsPath);
+            return null;
         }
 
-        var xDoc = XDocument.Load(SettingsPath);
+        var xDoc = XDocument.Load(OsuSettings.SettingsPath);
         var dataElement = xDoc.Element("Data");
 
         var startDirectory = dataElement?.Element("StartDirectory")?.Value;

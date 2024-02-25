@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace DifficultyProcessor
+namespace DifficultyProcessor.BeatmapManagement
 {
     public class BeatmapData
     {
@@ -92,7 +92,7 @@ namespace DifficultyProcessor
                 Console.WriteLine($"");
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine($"Checked this map: {apiUrl}");
-                
+
                 if (response.IsSuccessStatusCode)
                 {
                     return await response.Content.ReadAsStringAsync();

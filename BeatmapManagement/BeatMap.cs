@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace DifficultyProcessor
+namespace DifficultyProcessor.BeatmapManagement
 {
     internal static class BeatMap
     {
