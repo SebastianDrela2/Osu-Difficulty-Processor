@@ -1,12 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DifficultyProcessor.Settings;
+using System.Xml.Linq;
 
 namespace DifficultyProcessor.XmlManagement
 {
     internal class XmlSettingsSaver
     {
+        public void SaveSettings()
+        {
+            var initialXml = new XDocument(
+             new XElement("Data",
+                 new XElement("StartDirectory"),
+                 new XElement("TargetFolder"),
+                 new XElement("ApiKey"),
+                 new XElement("DesiredDifficulty")
+             )
+         );
+
+            foreach (var element in initialXml.Root.Elements())
+            {
+                Console.Write($"Enter {element.Name}: ");
+
+                var inputValue = Console.ReadLine();
+                element.Value = inputValue;
+            }
+
+            initialXml.Save(OsuSettings.SettingsPath);
+        }
     }
 }

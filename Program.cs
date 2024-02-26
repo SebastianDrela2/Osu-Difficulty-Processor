@@ -10,12 +10,13 @@ namespace DifficultyProcessor
         static void Main()
         {
             var searchPattern = "*.osu";
-            var osuSettings = XmlSettingsReader.GetOsuSettings();
+            var xmlSettingsReader = new XmlSettingsReader();
+            var osuSettings = xmlSettingsReader.GetOsuSettings();
 
             if (osuSettings is null)
             {
-                RequestSettings();
-                osuSettings = XmlSettingsReader.GetOsuSettings();
+                var xmlSettingSaver = new XmlSettingsSaver();
+                osuSettings = xmlSettingsReader.GetOsuSettings();
             }
 
             try
@@ -70,28 +71,6 @@ namespace DifficultyProcessor
                     }
                 }
             }
-        }
-
-        private static void RequestSettings()
-        {
-            var initialXml = new XDocument(
-             new XElement("Data",
-                 new XElement("StartDirectory"),
-                 new XElement("TargetFolder"),
-                 new XElement("ApiKey"),
-                 new XElement("DesiredDifficulty")
-             )
-         );
-
-            foreach (var element in initialXml.Root.Elements())
-            {
-                Console.Write($"Enter {element.Name}: ");
-
-                var inputValue = Console.ReadLine();
-                element.Value = inputValue;
-            }
-
-            initialXml.Save(OsuSettings.SettingsPath);
-        }
+        }        
     }
 }

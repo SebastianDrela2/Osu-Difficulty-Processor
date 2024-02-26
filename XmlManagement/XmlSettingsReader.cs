@@ -3,9 +3,9 @@ using DifficultyProcessor.Settings;
 
 namespace DifficultyProcessor.XmlManagement;
 
-internal static class XmlSettingsReader
+internal class XmlSettingsReader
 {   
-    public static OsuSettings? GetOsuSettings()
+    public OsuSettings? GetOsuSettings()
     {
         var parentDirectory = Path.GetDirectoryName(OsuSettings.SettingsPath)!;
 
