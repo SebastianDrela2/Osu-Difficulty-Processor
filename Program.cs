@@ -1,7 +1,6 @@
 ﻿using DifficultyProcessor.BeatmapManagement;
 using DifficultyProcessor.Settings;
 using DifficultyProcessor.XmlManagement;
-using System.Xml.Linq;
 
 namespace DifficultyProcessor
 {
@@ -16,6 +15,8 @@ namespace DifficultyProcessor
             if (osuSettings is null)
             {
                 var xmlSettingSaver = new XmlSettingsSaver();
+                xmlSettingSaver.SaveSettings();
+
                 osuSettings = xmlSettingsReader.GetOsuSettings();
             }
 
