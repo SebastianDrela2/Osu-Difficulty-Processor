@@ -91,7 +91,9 @@ namespace DifficultyProcessor.BeatmapManagement
                 var response = await client.GetAsync(apiUrl);
                 Console.WriteLine($"");
                 Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine($"Checked this map: {apiUrl}");
+
+                var apiUrlWithHiddenKey = apiUrl.Replace(_clientSecret, "api_key");
+                Console.WriteLine($"Checked this map: {apiUrlWithHiddenKey}");
 
                 if (response.IsSuccessStatusCode)
                 {
