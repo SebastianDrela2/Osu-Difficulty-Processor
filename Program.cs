@@ -53,7 +53,7 @@ namespace DifficultyProcessor
                     return;
                 }
 
-                if (jsonOnline != string.Empty)
+                if (!string.IsNullOrEmpty(jsonOnline))
                 {
                     var hit = beatmapProcessor.GetFullTitle(jsonOnline);
 

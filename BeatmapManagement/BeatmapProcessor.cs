@@ -108,10 +108,10 @@ namespace DifficultyProcessor.BeatmapManagement
             }
             catch
             {
-                return string.Empty;
+                return null;
             }
 
-            return string.Empty;
+            return null;
         }
     }
 }
