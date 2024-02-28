@@ -12,7 +12,8 @@ namespace DifficultyProcessor.XmlManagement
                  new XElement("StartDirectory"),
                  new XElement("TargetFolder"),
                  new XElement("ApiKey"),
-                 new XElement("DesiredDifficulty")
+                 new XElement("DesiredDifficulty"),
+                 new XElement("DesiredMod")
              )
          );
 

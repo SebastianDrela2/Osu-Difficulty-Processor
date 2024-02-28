@@ -26,6 +26,7 @@ internal class XmlSettingsReader
         var targetFolder = dataElement?.Element("TargetFolder")?.Value;
         var apiKey = dataElement?.Element("ApiKey")?.Value;
         var desiredDifficultyValue = dataElement?.Element("DesiredDifficulty")?.Value;
+        var desiredOsuMod = GetOsuMod(dataElement?.Element("DesiredMod")?.Value);
         var desiredDifficulty = 0;
 
         if (desiredDifficultyValue != null && int.TryParse(desiredDifficultyValue, out var parsedValue))
@@ -33,8 +34,28 @@ internal class XmlSettingsReader
             desiredDifficulty = parsedValue;
         }
 
-        var osuSettings = new OsuSettings(startDirectory!, targetFolder!, apiKey!, desiredDifficulty);
+        var osuSettings = new OsuSettings(startDirectory!, targetFolder!, apiKey!, desiredDifficulty, desiredOsuMod);
 
         return osuSettings;
+    }
+
+    private OsuMod GetOsuMod(string xElement)
+    {
+        return xElement switch
+        {
+            "None" => OsuMod.None,
+            "NoFail" => OsuMod.NoFail,
+            "Easy" => OsuMod.Easy,
+            "Hidden" => OsuMod.Hidden,
+            "HardRock" => OsuMod.HardRock,
+            "SuddenDeath" => OsuMod.SuddenDeath,
+            "DoubleTime" => OsuMod.DoubleTime,
+            "Relax" => OsuMod.Relax,
+            "HalfTime" => OsuMod.HalfTime,
+            "Nightcore" => OsuMod.Nightcore,
+            "Flashlight" => OsuMod.Flashlight,
+            "Autoplay" => OsuMod.Autoplay,
+            _ => throw new ArgumentException($"Invalid mod string: {xElement}")
+        };
     }
 }

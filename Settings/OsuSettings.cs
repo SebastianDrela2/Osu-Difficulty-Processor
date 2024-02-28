@@ -8,13 +8,15 @@
         public string TargetFolder;
         public string ApiKey;
         public int DesiredDifficulty;
+        public OsuMod DesiredMod;
 
-        public OsuSettings(string startDirectory, string targetFolder, string apiKey, int desiredDifficulty)
+        public OsuSettings(string startDirectory, string targetFolder, string apiKey, int desiredDifficulty, OsuMod desiredMod)
         {
             StartDirectory = startDirectory;
             TargetFolder = targetFolder;
             ApiKey = apiKey;
             DesiredDifficulty = desiredDifficulty;
+            DesiredMod = desiredMod;
         }
     }
 }

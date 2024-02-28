@@ -19,10 +19,10 @@ namespace DifficultyProcessor.BeatmapManagement
     internal class BeatmapProcessor
     {
         private readonly string _clientSecret;
-        private readonly string _modId;
+        private readonly int _modId;
         private readonly int _desiredDifficulty;
 
-        public BeatmapProcessor(string clientSecret, string modId, int desiredDifficulty)
+        public BeatmapProcessor(string clientSecret, int modId, int desiredDifficulty)
         {
             _clientSecret = clientSecret;
             _modId = modId;
