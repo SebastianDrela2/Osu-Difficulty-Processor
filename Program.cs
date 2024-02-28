@@ -36,7 +36,8 @@ namespace DifficultyProcessor
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                Console.WriteLine($"Settings Path: {OsuSettings.SettingsPath}");                            
+                Console.WriteLine($"Settings Path: {OsuSettings.SettingsPath}");
+                throw; 
             }
         }
 
