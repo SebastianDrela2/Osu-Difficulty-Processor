@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Net;
 
 namespace DifficultyProcessor.BeatmapManagement
 {
@@ -95,9 +96,9 @@ namespace DifficultyProcessor.BeatmapManagement
                 var apiUrlWithHiddenKey = apiUrl.Replace(_clientSecret, "api_key");
                 Console.WriteLine($"Checked this map: {apiUrlWithHiddenKey}");
 
-                if (response.ReasonPhrase is "Unauthorized")
+                if (response.StatusCode is HttpStatusCode.Unauthorized)
                 {
-                    return response.ReasonPhrase;
+                    return response.StatusCode.ToString();
                 }
 
                 if (response.IsSuccessStatusCode)
