@@ -43,9 +43,9 @@ namespace DifficultyProcessor
         {
             foreach (var id in allIDs)
             {
-                var jsonOnline = beatmapProcessor.GetJson(id);
+                var json = beatmapProcessor.GetJson(id);
 
-                if (jsonOnline is "Unauthorized")
+                if (json is "Unauthorized")
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("UNAUTHORIZED ACCESS, WRONG API KEY");
@@ -53,33 +53,38 @@ namespace DifficultyProcessor
                     return;
                 }
 
-                if (!string.IsNullOrEmpty(jsonOnline))
+                ProcessJson(beatmapProcessor, osuSettings, foundFiles, json);
+            }
+        }
+        
+        private static void ProcessJson(BeatmapProcessor beatmapProcessor, OsuSettings osuSettings, string[] foundFiles, string json)
+        {
+            if (!string.IsNullOrEmpty(json))
+            {
+                var hit = beatmapProcessor.GetFullTitle(json);
+
+                if (!string.IsNullOrEmpty(hit))
                 {
-                    var hit = beatmapProcessor.GetFullTitle(jsonOnline);
+                    var pathHit = foundFiles.FirstOrDefault(x => x.Contains(hit));
 
-                    if (!string.IsNullOrEmpty(hit))
+                    if (!string.IsNullOrEmpty(pathHit))
                     {
-                        var pathHit = foundFiles.FirstOrDefault(x => x.Contains(hit));
-
-                        if (!string.IsNullOrEmpty(pathHit))
+                        var fileName = Path.GetFileName(pathHit);
+                        try
                         {
-                            var fileName = Path.GetFileName(pathHit);
-                            try
-                            {
-                                File.Copy(pathHit, @$"{osuSettings.TargetFolder}\{fileName}", true);
-                                Console.ForegroundColor = ConsoleColor.Green;
-                                Console.WriteLine($"Copied {fileName}");
-                            }
-                            catch
-                            {
-                                Console.ForegroundColor = ConsoleColor.White;
-                                Console.WriteLine("Error");
-                                Console.ReadKey();
-                            }
+                            File.Copy(pathHit, @$"{osuSettings.TargetFolder}\{fileName}", true);
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine($"Copied {fileName}");
+                        }
+                        catch
+                        {
+                            Console.ForegroundColor = ConsoleColor.White;
+                            Console.WriteLine("Error");
+                            Console.ReadKey();
                         }
                     }
                 }
             }
-        }               
+        }
     }
 }
