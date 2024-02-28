@@ -20,6 +20,8 @@ namespace DifficultyProcessor
                 osuSettings = xmlSettingsReader.GetOsuSettings();
             }
 
+            Console.WriteLine($"Loaded settings from: {OsuSettings.SettingsPath}");
+
             try
             {
                 var foundFiles = Directory.GetFiles(osuSettings!.StartDirectory, searchPattern, SearchOption.AllDirectories);
@@ -34,8 +36,7 @@ namespace DifficultyProcessor
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                Console.WriteLine($"Settings Path: {OsuSettings.SettingsPath}");
-                throw;
+                Console.WriteLine($"Settings Path: {OsuSettings.SettingsPath}");                            
             }
         }
 
