@@ -45,6 +45,14 @@ namespace DifficultyProcessor
             {
                 var jsonOnline = beatmapProcessor.GetJson(id);
 
+                if (jsonOnline is "Unauthorized")
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("UNAUTHORIZED ACCESS, WRONG API KEY");
+
+                    return;
+                }
+
                 if (jsonOnline != string.Empty)
                 {
                     var hit = beatmapProcessor.GetFullTitle(jsonOnline);
@@ -72,6 +80,6 @@ namespace DifficultyProcessor
                     }
                 }
             }
-        }        
+        }               
     }
 }

@@ -95,6 +95,11 @@ namespace DifficultyProcessor.BeatmapManagement
                 var apiUrlWithHiddenKey = apiUrl.Replace(_clientSecret, "api_key");
                 Console.WriteLine($"Checked this map: {apiUrlWithHiddenKey}");
 
+                if (response.ReasonPhrase is "Unauthorized")
+                {
+                    return response.ReasonPhrase;
+                }
+
                 if (response.IsSuccessStatusCode)
                 {
                     return await response.Content.ReadAsStringAsync();
