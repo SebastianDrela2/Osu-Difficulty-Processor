@@ -9,14 +9,17 @@
         public string ApiKey;
         public int DesiredDifficulty;
         public OsuMod DesiredMod;
+        public int CheckIntervalInSeconds;
 
-        public OsuSettings(string startDirectory, string targetFolder, string apiKey, int desiredDifficulty, OsuMod desiredMod)
+        public OsuSettings
+            (string startDirectory, string targetFolder, string apiKey, int desiredDifficulty, OsuMod desiredMod, int checkIntervalInSeconds)
         {
             StartDirectory = startDirectory;
             TargetFolder = targetFolder;
             ApiKey = apiKey;
             DesiredDifficulty = desiredDifficulty;
             DesiredMod = desiredMod;
+            CheckIntervalInSeconds = checkIntervalInSeconds;
         }
     }
 }

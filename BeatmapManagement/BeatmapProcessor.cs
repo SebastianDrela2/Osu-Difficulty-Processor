@@ -21,12 +21,14 @@ namespace DifficultyProcessor.BeatmapManagement
         private readonly string _clientSecret;
         private readonly int _modId;
         private readonly int _desiredDifficulty;
+        private readonly int _checkIntervalInMiliSeconds;
 
-        public BeatmapProcessor(string clientSecret, int modId, int desiredDifficulty)
+        public BeatmapProcessor(string clientSecret, int modId, int desiredDifficulty, int checkIntervalInSeconds)
         {
             _clientSecret = clientSecret;
             _modId = modId;
             _desiredDifficulty = desiredDifficulty;
+            _checkIntervalInMiliSeconds = checkIntervalInSeconds * 1000;
         }
 
         public string GetFullTitle(string json)
@@ -86,8 +88,9 @@ namespace DifficultyProcessor.BeatmapManagement
                 using var client = new HttpClient();
 
                 var apiUrl = $"https://osu.ppy.sh/api/get_beatmaps?k={_clientSecret}&b={mapId}mods={_modId}";
-
-                Thread.Sleep(1000);
+              
+                // We should wait couple seconds before calling api again.
+                Thread.Sleep(_checkIntervalInMiliSeconds);
 
                 var response = await client.GetAsync(apiUrl);
                 Console.WriteLine($"");
