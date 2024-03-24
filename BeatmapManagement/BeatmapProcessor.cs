@@ -73,15 +73,15 @@ namespace DifficultyProcessor.BeatmapManagement
             {
                 json = GetOsuUrlJsonCall(id).Result;
             }
-            catch
+            catch (Exception ex)
             {
-                // return empty json if anything fails.
+                Console.WriteLine(ex.Message);
             }
 
             return json;
         }
 
-        private async Task<string> GetOsuUrlJsonCall(string mapId)
+        private async Task<string?> GetOsuUrlJsonCall(string mapId)
         {
             try
             {
@@ -109,8 +109,10 @@ namespace DifficultyProcessor.BeatmapManagement
                     return await response.Content.ReadAsStringAsync();
                 }
             }
-            catch
+            catch(Exception ex)
             {
+                Console.WriteLine($"{ex.Message}");
+
                 return null;
             }
 

@@ -84,10 +84,10 @@ namespace DifficultyProcessor
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine($"Copied {fileName}");
                 }
-                catch
+                catch(Exception ex)
                 {
                     Console.ForegroundColor = ConsoleColor.White;
-                    Console.WriteLine("Error");
+                    Console.WriteLine($"Exception : {ex.Message} ");
                     Console.ReadKey();
                 }
             }
