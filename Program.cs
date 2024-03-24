@@ -32,7 +32,7 @@ namespace DifficultyProcessor
                 ProcessFetchedIds(allIDs, beatmapProcessor, foundFiles, osuSettings);
 
                 Console.ForegroundColor = ConsoleColor.White;
-                Console.ReadKey();
+                DisplayNotResolvedHitsMessage();
             }
             catch (Exception ex)
             {
@@ -41,9 +41,16 @@ namespace DifficultyProcessor
                 throw; 
             }
 
-            File.WriteAllLines(@$"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\OsuDifficultyParserSettings\notResolvedHits.txt", _notResolvedHits);
+            Console.ReadKey();
+        }
+
+        private static void DisplayNotResolvedHitsMessage()
+        {
+            var notResolvedHitsPath = @$"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\OsuDifficultyParserSettings\notResolvedHits.txt";
+
+            File.WriteAllLines(notResolvedHitsPath, _notResolvedHits);
             Console.WriteLine("Saved not resolved hits.");
-            Console.WriteLine($"Total Count: {_notResolvedHits.Count}");
+            Console.WriteLine($"Total Count: {_notResolvedHits.Count}");            
         }
 
         private static void ProcessFetchedIds(List<string> allIDs, BeatmapProcessor beatmapProcessor, string[] foundFiles, OsuSettings osuSettings)
