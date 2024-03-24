@@ -6,6 +6,7 @@ namespace DifficultyProcessor
 {
     internal class Program
     {
+        private static readonly IList<string> _notResolvedHits = new List<string>();
         static void Main()
         {
             var searchPattern = "*.osu";
@@ -33,12 +34,16 @@ namespace DifficultyProcessor
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.ReadKey();
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine(ex.Message);
                 Console.WriteLine($"Settings Path: {OsuSettings.SettingsPath}");
                 throw; 
             }
+
+            File.WriteAllLines(@$"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\OsuDifficultyParserSettings\notResolvedHits.txt", _notResolvedHits);
+            Console.WriteLine("Saved not resolved hits.");
+            Console.WriteLine($"Total Count: {_notResolvedHits.Count}");
         }
 
         private static void ProcessFetchedIds(List<string> allIDs, BeatmapProcessor beatmapProcessor, string[] foundFiles, OsuSettings osuSettings)
@@ -75,21 +80,28 @@ namespace DifficultyProcessor
 
             var pathHit = foundFiles.FirstOrDefault(x => x.Contains(hit));
 
-            if (!string.IsNullOrEmpty(pathHit))
+            if (pathHit is null)
             {
-                var fileName = Path.GetFileName(pathHit);
-                try
-                {
-                    File.Copy(pathHit, @$"{osuSettings.TargetFolder}\{fileName}", true);
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine($"Copied {fileName}");
-                }
-                catch(Exception ex)
-                {
-                    Console.ForegroundColor = ConsoleColor.White;
-                    Console.WriteLine($"Exception : {ex.Message} ");
-                    Console.ReadKey();
-                }
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.WriteLine($"Did not copy: {hit}, map not found in files, added to not resolved list.");
+                _notResolvedHits.Add(hit);
+
+                return;
+            }
+
+            var fileName = Path.GetFileName(pathHit);
+
+            try
+            {
+                File.Copy(pathHit, @$"{osuSettings.TargetFolder}\{fileName}", true);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"Copied {fileName}");
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine($"Exception : {ex.Message} ");
+                Console.ReadKey();
             }
         }
     }

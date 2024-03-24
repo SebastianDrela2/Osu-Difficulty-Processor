@@ -78,9 +78,8 @@ namespace DifficultyProcessor.BeatmapManagement
                 // We should wait couple seconds before calling api again.
                 Thread.Sleep(_checkIntervalInMiliSeconds);
 
-                var response = await client.GetAsync(apiUrl);
-                Console.WriteLine($"");
-                Console.ForegroundColor = ConsoleColor.Blue;
+                var response = await client.GetAsync(apiUrl);               
+                Console.ForegroundColor = ConsoleColor.Cyan;
 
                 var apiUrlWithHiddenKey = apiUrl.Replace(_clientSecret, "api_key");
                 Console.WriteLine($"Checked this map: {apiUrlWithHiddenKey}");
