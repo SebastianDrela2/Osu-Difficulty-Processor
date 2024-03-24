@@ -49,7 +49,7 @@ namespace DifficultyProcessor
             var notResolvedHitsPath = @$"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\OsuDifficultyParserSettings\notResolvedHits.txt";
 
             File.WriteAllLines(notResolvedHitsPath, _notResolvedHits);
-            Console.WriteLine("Saved not resolved hits.");
+            Console.WriteLine($"Saved not resolved hits to {notResolvedHitsPath}");
             Console.WriteLine($"Total Count: {_notResolvedHits.Count}");            
         }
 
