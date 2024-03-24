@@ -65,7 +65,7 @@ namespace DifficultyProcessor.BeatmapManagement
             return obj ?? new List<BeatmapData>();
         }
 
-        public string GetJson(string id)
+        public string? GetJson(string id)
         {
             var json = string.Empty;
 
