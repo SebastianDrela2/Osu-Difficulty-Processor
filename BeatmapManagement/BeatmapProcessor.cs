@@ -65,22 +65,8 @@ namespace DifficultyProcessor.BeatmapManagement
             return obj ?? new List<BeatmapData>();
         }
 
-        public string? GetJson(string id)
-        {
-            var json = string.Empty;
-
-            try
-            {
-                json = GetOsuUrlJsonCall(id).Result;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-
-            return json;
-        }
-
+        public string? GetJson(string id) => GetOsuUrlJsonCall(id).Result;
+       
         private async Task<string?> GetOsuUrlJsonCall(string mapId)
         {
             try
@@ -108,15 +94,16 @@ namespace DifficultyProcessor.BeatmapManagement
                 {
                     return await response.Content.ReadAsStringAsync();
                 }
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine($"{ex.Message}");
 
                 return null;
             }
+            catch(Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine($"{ex.Message}");
 
-            return null;
+                return null;
+            }          
         }
     }
 }
