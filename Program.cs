@@ -61,7 +61,7 @@ namespace DifficultyProcessor
         
         private static void ProcessJson(BeatmapProcessor beatmapProcessor, OsuSettings osuSettings, string[] foundFiles, string json)
         {
-            if (string.IsNullOrEmpty(json))
+            if (json is null)
             {
                 return;
             }
