@@ -61,32 +61,37 @@ namespace DifficultyProcessor
         
         private static void ProcessJson(BeatmapProcessor beatmapProcessor, OsuSettings osuSettings, string[] foundFiles, string json)
         {
-            if (!string.IsNullOrEmpty(json))
+            if (string.IsNullOrEmpty(json))
             {
-                var hit = beatmapProcessor.GetFullTitle(json);
+                return;
+            }
 
-                if (!string.IsNullOrEmpty(hit))
+            var hit = beatmapProcessor.GetFullTitle(json);
+
+            if (string.IsNullOrEmpty(hit))
+            {
+                return;
+            }
+
+            var pathHit = foundFiles.FirstOrDefault(x => x.Contains(hit));
+
+            if (!string.IsNullOrEmpty(pathHit))
+            {
+                var fileName = Path.GetFileName(pathHit);
+                try
                 {
-                    var pathHit = foundFiles.FirstOrDefault(x => x.Contains(hit));
-
-                    if (!string.IsNullOrEmpty(pathHit))
-                    {
-                        var fileName = Path.GetFileName(pathHit);
-                        try
-                        {
-                            File.Copy(pathHit, @$"{osuSettings.TargetFolder}\{fileName}", true);
-                            Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine($"Copied {fileName}");
-                        }
-                        catch
-                        {
-                            Console.ForegroundColor = ConsoleColor.White;
-                            Console.WriteLine("Error");
-                            Console.ReadKey();
-                        }
-                    }
+                    File.Copy(pathHit, @$"{osuSettings.TargetFolder}\{fileName}", true);
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"Copied {fileName}");
+                }
+                catch
+                {
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine("Error");
+                    Console.ReadKey();
                 }
             }
+
         }
     }
 }
