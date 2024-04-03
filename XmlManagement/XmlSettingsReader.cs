@@ -22,9 +22,9 @@ internal class XmlSettingsReader
         var xDoc = XDocument.Load(OsuSettings.SettingsPath);
         var dataElement = xDoc.Element("Data");
 
-        var startDirectory = dataElement?.Element("StartDirectory")?.Value;
-        var targetFolder = dataElement?.Element("TargetFolder")?.Value;
-        var apiKey = dataElement?.Element("ApiKey")?.Value;
+        var osuSongsPath = dataElement?.Element("OsuSongsPath")?.Value!;
+        var resultsPath = dataElement?.Element("ResultsPath")?.Value!;
+        var apiKey = dataElement?.Element("ApiKey")?.Value!;
         var desiredDifficultyValue = dataElement?.Element("DesiredDifficulty")?.Value;
         var desiredOsuMod = GetOsuMod(dataElement?.Element("DesiredMod")?.Value!);
         var checkIntervalInSeconds = int.Parse(dataElement?.Element("CheckIntervalInSeconds")?.Value!);
@@ -35,27 +35,29 @@ internal class XmlSettingsReader
             desiredDifficulty = parsedValue;
         }
 
-        var osuSettings = new OsuSettings(startDirectory!, targetFolder!, apiKey!, desiredDifficulty, desiredOsuMod, checkIntervalInSeconds);
+        var osuSettings = new OsuSettings(osuSongsPath, resultsPath, apiKey, desiredDifficulty, desiredOsuMod, checkIntervalInSeconds);
 
         return osuSettings;
     }
 
     private OsuMod GetOsuMod(string xElement)
     {
+        xElement = xElement.ToLower();
+
         return xElement switch
         {
-            "None" => OsuMod.None,
-            "NoFail" => OsuMod.NoFail,
-            "Easy" => OsuMod.Easy,
-            "Hidden" => OsuMod.Hidden,
-            "HardRock" => OsuMod.HardRock,
-            "SuddenDeath" => OsuMod.SuddenDeath,
-            "DoubleTime" => OsuMod.DoubleTime,
-            "Relax" => OsuMod.Relax,
-            "HalfTime" => OsuMod.HalfTime,
-            "Nightcore" => OsuMod.Nightcore,
-            "Flashlight" => OsuMod.Flashlight,
-            "Autoplay" => OsuMod.Autoplay,
+            "none" => OsuMod.None,
+            "nofail" => OsuMod.NoFail,
+            "easy" => OsuMod.Easy,
+            "hidden" => OsuMod.Hidden,
+            "hardrock" => OsuMod.HardRock,
+            "suddendeath" => OsuMod.SuddenDeath,
+            "doubletime" => OsuMod.DoubleTime,
+            "relax" => OsuMod.Relax,
+            "halftime" => OsuMod.HalfTime,
+            "nightcore" => OsuMod.Nightcore,
+            "flashlight" => OsuMod.Flashlight,
+            "autoplay" => OsuMod.Autoplay,
             _ => throw new ArgumentException($"Invalid mod string: {xElement}")
         };
     }

@@ -9,8 +9,8 @@ namespace DifficultyProcessor.XmlManagement
         {
             var initialXml = new XDocument(
              new XElement("Data",
-                 new XElement("StartDirectory"),
-                 new XElement("TargetFolder"),
+                 new XElement("OsuSongsPath"),
+                 new XElement("ResultsPath"),
                  new XElement("ApiKey"),
                  new XElement("DesiredDifficulty"),
                  new XElement("DesiredMod"),

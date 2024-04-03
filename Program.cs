@@ -25,7 +25,7 @@ namespace DifficultyProcessor
 
             try
             {
-                var foundFiles = Directory.GetFiles(osuSettings!.StartDirectory, searchPattern, SearchOption.AllDirectories);
+                var foundFiles = Directory.GetFiles(osuSettings!.OsuSongsPath, searchPattern, SearchOption.AllDirectories);
                 var allIDs = BeatMap.GetAllIds(foundFiles);
                 var beatmapProcessor = new BeatmapProcessor(osuSettings.ApiKey, (int) osuSettings.DesiredMod, osuSettings.DesiredDifficulty, osuSettings.CheckIntervalInSeconds);
 
@@ -100,7 +100,7 @@ namespace DifficultyProcessor
 
             try
             {
-                File.Copy(pathHit, @$"{osuSettings.TargetFolder}\{fileName}", true);
+                File.Copy(pathHit, @$"{osuSettings.ResultsPath}\{fileName}", true);
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine($"Copied {fileName}");
             }
