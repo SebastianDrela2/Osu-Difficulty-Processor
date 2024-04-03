@@ -32,7 +32,7 @@ namespace DifficultyProcessor
                 ProcessFetchedIds(allIDs, beatmapProcessor, foundFiles, osuSettings);
 
                 Console.ForegroundColor = ConsoleColor.White;
-                DisplayNotResolvedHitsMessage();
+                SaveNotResolvedHitsList();
             }
             catch (Exception ex)
             {
@@ -44,7 +44,7 @@ namespace DifficultyProcessor
             Console.ReadKey();
         }
 
-        private static void DisplayNotResolvedHitsMessage()
+        private static void SaveNotResolvedHitsList()
         {
             var notResolvedHitsPath = @$"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\OsuDifficultyParserSettings\notResolvedHits.txt";
 
