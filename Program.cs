@@ -26,7 +26,7 @@ namespace DifficultyProcessor
             try
             {
                 var foundFiles = Directory.GetFiles(osuSettings!.OsuSongsPath, searchPattern, SearchOption.AllDirectories);
-                var allIDs = BeatMap.GetAllIds(foundFiles);
+                var allIDs = BeatMapUtils.GetAllIds(foundFiles);
                 var beatmapProcessor = new BeatmapProcessor(osuSettings.ApiKey, (int) osuSettings.DesiredMod, osuSettings.DesiredDifficulty, osuSettings.CheckIntervalInSeconds);
 
                 ProcessFetchedIds(allIDs, beatmapProcessor, foundFiles, osuSettings);

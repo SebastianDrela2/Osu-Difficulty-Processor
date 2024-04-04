@@ -2,26 +2,19 @@
 
 namespace DifficultyProcessor.BeatmapManagement
 {
-    internal static class BeatMap
+    internal static class BeatMapUtils
     {
-        public static List<string> GetAllIds(string[] foundFiles)
+        public static IList<string> GetAllIds(string[] foundFiles)
         {
             var ids = new List<string>();
 
             foreach (var file in foundFiles)
             {
-                try
-                {
-                    var id = GetBeatMapID(file);
+                var id = GetBeatMapID(file);
 
-                    if (id != string.Empty)
-                    {
-                        ids.Add(id);
-                    }
-                }
-                catch
+                if (id != string.Empty)
                 {
-                    // if anything happens, just continue
+                    ids.Add(id);
                 }
             }
 
